@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Delegate.Entities
 {
@@ -12,10 +13,15 @@ namespace Delegate.Entities
         public string SurName { get; set; }
         public string Address { get; set; }
         public double Salary { get; set; }
-        public List<Person> Employees { get; set; }
-        public Person()
+
+
+
+
+
+        public override string ToString()
         {
-            Employees = new List<Person>();
+            return $"Full Name: {Name} {SurName} , Address: {Address}, Salary: {Salary}";
         }
     }
+    
 }
