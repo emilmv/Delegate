@@ -11,11 +11,9 @@ namespace Delegate
             //Persons.Add(new Person { Name = "Marcus", SurName = "Rashford", Address = "United Kingdom", Salary = 1000000 });
             //Persons.Add(new Person { Name = "Anthony", SurName = "Martial", Address = "France", Salary = 1200000 });
             //Persons.Add(new Person { Name = "Luke", SurName = "Shaw", Address = "United Kingdom", Salary = 500 });
-            //Predicate<Person> Filter = p => p.Salary > 1000;
-            //var result = Persons.FindAll(Filter);
-            //foreach (Person p in result)
+            //foreach (var item in CalculateSalary(p => p.Salary > 1000, Persons))
             //{
-            //    Console.WriteLine(p);
+            //    Console.WriteLine(item);
             //}
             #endregion
             #region Task2
@@ -26,48 +24,27 @@ namespace Delegate
             //books.Add(new Book { Name = "Cay Desgahi", AuthorName = "Celil Memmedquluzade", PageCount = 300 });
             //books.Add(new Book { Name = "Oluler", AuthorName = "Celil Memmedquluzade", PageCount = 400 });
             //books.Add(new Book { Name = "Cinayet ve Ceza", AuthorName = "Fyodor Dostoyevski", PageCount = 600 });
-            //Predicate<Book> BooksOfNizami = b => b.AuthorName.ToUpper() == "NIZAMI GENCEVI";
-            //var result=books.FindAll(BooksOfNizami);
-            //foreach(Book book in result)
-            //{
-            //    Console.WriteLine(book);
-            //}
+            //Console.WriteLine(CountOfNizamiBooks(b=>b.AuthorName.Equals("nizami gencevi",StringComparison.OrdinalIgnoreCase),books));
             #endregion
             #region Task3
             List<Employee> employees = new List<Employee>();
             employees.Add(new Employee { Name = "Marcus", Age = 25, Salary = 2500 });
             employees.Add(new Employee { Name = "Anthony", Age = 30, Salary = 1500 });
             employees.Add(new Employee { Name = "Luke", Age = 22, Salary = 600 });
-            Calculate calculate= Sum;
-            calculate += Avg;
-            calculate += Min;
-            calculate += Max;
+            var newList = employees.FindAll(e => e.Age > 20 && e.Age < 40);
+            Console.WriteLine("Sum of Salary: "+newList.Sum(e=>e.Salary));
+            Console.WriteLine("Max Salary: "+newList.Max(e=>e.Salary));
+            Console.WriteLine("Min Salary: "+newList.Min(e=>e.Salary));
+            Console.WriteLine("Average Salary: "+newList.Average(e=>e.Salary));
             #endregion
         }
-        public delegate double Calculate(List<Employee>employees);
-
-        static double Sum(List<Employee>employees)
+        static List<Person> CalculateSalary(Predicate<Person> method, List<Person> list)
         {
-            double sum = 0;
-            foreach (Employee employee in employees)
-            {
-                sum += employee.Salary;
-            }
-            return sum;
+            return list.FindAll(method);
         }
-        static double Avg(List<Employee> employees)
+        static int CountOfNizamiBooks(Predicate<Book> method, List<Book> list)
         {
-            return Sum(employees) / employees.Count;
-        }
-        static double Min(List<Employee> employees)
-        {
-            var result= employees.Find(e => e.Salary == employees.Min(employees => employees.Salary));
-            return result.Salary;
-        }
-        static double Max(List<Employee> employees)
-        {
-            var result = employees.Find(e => e.Salary == employees.Max(employees => employees.Salary));
-            return result.Salary;
+            return list.FindAll(method).Count;
         }
     }
 }
